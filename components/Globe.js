@@ -23,7 +23,8 @@ const Globe = () => {
     const ambientLight = new THREE.AmbientLight(0x404040, 0.5); // Add ambient light
     scene.add(ambientLight);
 
-    const geometry = new THREE.SphereGeometry(0.8, 32, 32);
+    // const geometry = new THREE.SphereGeometry(0.8, 32, 32);
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshPhongMaterial({
       color: 0x2155ce,
     });
@@ -34,7 +35,7 @@ const Globe = () => {
 
     const render = () => {
       requestAnimationFrame(render);
-      sphere.rotation.y += 0.01; // Adjust rotation speed if desired
+      sphere.rotation.y += 0.05; // Adjust rotation speed if desired
       renderer.render(scene, camera);
       gl.endFrameEXP();
     };
