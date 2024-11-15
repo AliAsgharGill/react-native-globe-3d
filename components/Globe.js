@@ -12,13 +12,9 @@ const Globe = () => {
     renderer.setPixelRatio(gl.drawingBufferWidth / gl.drawingBufferHeight);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      gl.drawingBufferWidth / gl.drawingBufferHeight,
-      0.1,
-      1000
-    );
-    camera.position.z = 2;
+    const aspect = gl.drawingBufferWidth / gl.drawingBufferHeight;
+    const camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
+    camera.position.z = 3; // keeping it far for now
 
     const light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.set(5, 5, 5).normalize();
@@ -28,21 +24,13 @@ const Globe = () => {
     scene.add(ambientLight);
 
     const geometry = new THREE.SphereGeometry(0.8, 32, 32);
-    // const geometry = new THREE.SphereGeometry(1, 1, 1);
     const material = new THREE.MeshPhongMaterial({
       color: 0x2155ce,
     });
 
     const sphere = new THREE.Mesh(geometry, material);
-    // sphere.position.z = -2;
-    // sphere.position.y = 2;
-    sphere.position.x = 1;
+    sphere.position.set(0, 0, 0); // Center the sphere
     scene.add(sphere);
-
-    // const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
-    // const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    // const cube = new THREE.Mesh(boxGeometry, boxMaterial);
-    // scene.add(cube);
 
     const render = () => {
       requestAnimationFrame(render);
