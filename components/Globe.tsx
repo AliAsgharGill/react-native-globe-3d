@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from "react";
-import { GLView } from "expo-gl";
+import { GLView, ExpoWebGLRenderingContext, GLViewProps } from "expo-gl";
 import { Renderer } from "expo-three";
 import * as THREE from "three";
 
-const Globe = () => {
-  const glRef = useRef();
+const Globe: React.FC = (): JSX.Element => {
+  const glRef = useRef<GLView | null>(null);
 
-  const onContextCreate = async (gl) => {
+  const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
     const renderer = new Renderer({ gl });
     renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight);
     renderer.setPixelRatio(gl.drawingBufferWidth / gl.drawingBufferHeight);
