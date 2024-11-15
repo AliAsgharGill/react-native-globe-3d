@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { GLView, ExpoWebGLRenderingContext, GLViewProps } from "expo-gl";
+import { GLView, ExpoWebGLRenderingContext } from "expo-gl";
 import { Renderer } from "expo-three";
 import * as THREE from "three";
 
@@ -23,22 +23,39 @@ const Globe: React.FC = (): JSX.Element => {
     const ambientLight = new THREE.AmbientLight(0x404040, 0.5); // Add ambient light
     scene.add(ambientLight);
 
-    // const geometry = new THREE.SphereGeometry(0.8, 32, 32);
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    // Load Earth texture
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load(
+      require("../assets/images/earth.png"),
+      (texture) => {
+        console.log("Texture loaded successfully!");
+      },
+      undefined,
+      (error) => {
+        console.error("Error loading texture:", error);
+      }
+    );
+
+    // Create a sphere for Earth
+    const geometry = new THREE.SphereGeometry(1, 32, 32); // Using SphereGeometry for Earth
     const material = new THREE.MeshPhongMaterial({
-      color: 0x2155ce,
+      map: earthTexture, // Apply the Earth texture
     });
 
-    const sphere = new THREE.Mesh(geometry, material);
-    sphere.position.set(0, 0, 0); // Center the sphere
-    scene.add(sphere);
+    const earthSphere = new THREE.Mesh(geometry, material);
+    earthSphere.position.set(0, 0, 0); // Center the sphere
+    scene.add(earthSphere);
 
     const render = () => {
       requestAnimationFrame(render);
-      sphere.rotation.y += 0.05; // Adjust rotation speed if desired
+
+      // Auto-rotate the Earth
+      earthSphere.rotation.y += 0.01; // Adjust rotation speed if needed
+
       renderer.render(scene, camera);
       gl.endFrameEXP();
     };
+
     render();
   };
 
